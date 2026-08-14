@@ -9,3 +9,4 @@ export { default as Modal } from './Modal';
 export { default as Pagination } from './Pagination';
 export { default as Badge } from './Badge';
 export { default as Chip } from './Chip';
+export { default as ProgressBar } from './ProgressBar';

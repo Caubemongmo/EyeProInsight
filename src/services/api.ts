@@ -137,5 +137,45 @@ export async function removeUser(id: number): Promise<void> {
 }
 
 export async function resetPassword(id: number): Promise<void> {
-  await delay(500); // Simulate API call to send email
+  await delay(500);
+}
+
+// --- Subscriptions Data ---
+
+export interface SiteQuota {
+  id: number;
+  name: string;
+  cap: number;
+  used: number;
+}
+
+const SITE_SEED: SiteQuota[] = [
+  { id: 1, name: 'TH Nguyễn Tri Phương', cap: 120000, used: 86420 },
+  { id: 2, name: 'TH Phan Chu Trinh', cap: 80000, used: 74310 },
+  { id: 3, name: 'TH Lê Quý Đôn', cap: 60000, used: 12980 },
+];
+
+let siteStore: SiteQuota[] = [...SITE_SEED];
+let userCapStore: number = 50;
+let nextSiteId = 4;
+
+export async function fetchSubscriptionData(): Promise<{ userCap: number; sites: SiteQuota[] }> {
+  await delay(250);
+  return { userCap: userCapStore, sites: [...siteStore] };
+}
+
+export async function updateUserCap(cap: number): Promise<void> {
+  await delay(300);
+  userCapStore = cap;
+}
+
+export async function addSite(name: string, cap: number): Promise<void> {
+  await delay(350);
+  siteStore.push({ id: nextSiteId++, name, cap, used: 0 });
+}
+
+export async function updateSiteCap(id: number, cap: number): Promise<void> {
+  await delay(300);
+  const idx = siteStore.findIndex(s => s.id === id);
+  if (idx !== -1) siteStore[idx].cap = cap;
 }
