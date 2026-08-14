@@ -45,9 +45,7 @@ export default function Topbar() {
     <header className="flex items-center gap-3 h-[var(--topbar-height)] px-5 bg-white border-b border-[var(--color-border)] flex-none">
       {/* Logo */}
       <div className="flex items-center gap-2.5">
-        <div className="text-[18px] font-bold tracking-tight text-[var(--color-primary)]">
-          EyePro Insight
-        </div>
+        <img src="/logo.png" alt="EyePro Insight Logo" className="h-[44px] object-contain" />
         <span className="text-[10px] font-bold text-[var(--color-text-secondary)] uppercase tracking-[0.5px] border border-[var(--color-border)] rounded px-1.5 py-[1px] self-center">
           Admin
         </span>
