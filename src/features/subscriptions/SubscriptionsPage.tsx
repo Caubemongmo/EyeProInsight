@@ -10,6 +10,7 @@ import {
   updateSiteCap,
   type SiteQuota 
 } from '../../services/api';
+import { useAppStore, SCHOOLS } from '../../stores/appStore';
 
 type CapModalType = 'user' | { siteId: number } | null;
 
@@ -19,9 +20,11 @@ export default function SubscriptionsPage() {
   const [perPage, setPerPage] = useState(5);
   const [page, setPage] = useState(1);
   
+  const selectedSchoolId = useAppStore(state => state.selectedSchoolId);
+  const selectedSchoolName = SCHOOLS.find(s => s.id === selectedSchoolId)?.name || '';
+  
   // Modals state
   const [capModal, setCapModal] = useState<CapModalType>(null);
-  const [siteModalOpen, setSiteModalOpen] = useState(false);
 
   const loadData = async () => {
     const data = await fetchSubscriptionData();
@@ -33,11 +36,11 @@ export default function SubscriptionsPage() {
     loadData();
   }, []);
 
-  const pageRows = useMemo(() => {
-    const totalPages = Math.max(1, Math.ceil(sites.length / perPage));
-    const safePage = Math.min(page, totalPages);
-    return sites.slice((safePage - 1) * perPage, safePage * perPage);
-  }, [sites, page, perPage]);
+  const filteredSites = useMemo(() => {
+    return sites.filter(s => s.name === selectedSchoolName);
+  }, [sites, selectedSchoolName]);
+
+  const pageRows = filteredSites;
 
   // Cap Modal Logic
   let capTitle = '';
@@ -113,7 +116,6 @@ export default function SubscriptionsPage() {
           </div>
         </div>
 
-        {/* Site Caps List Header */}
         <div className="flex items-end gap-3.5 px-[22px] pt-[15px] pb-1.5">
           <div className="flex-1 min-w-0">
             <div className="text-[13.5px] font-semibold">Tin nhắn tối đa của mỗi site khách hàng / tháng</div>
@@ -121,23 +123,11 @@ export default function SubscriptionsPage() {
               Khi site đạt hạn mức, trợ lý ngừng trả lời tới đầu tháng sau.
             </div>
           </div>
-          <Button 
-            variant="primary" 
-            onClick={() => setSiteModalOpen(true)}
-            className="py-2 px-3.5 text-[12.5px] whitespace-nowrap"
-          >
-            + Thêm site
-          </Button>
         </div>
 
         <SiteQuotaTable 
           sites={pageRows}
-          totalSites={sites.length}
           onEditSiteCap={(s) => setCapModal({ siteId: s.id })}
-          page={page}
-          perPage={perPage}
-          onPageChange={setPage}
-          onPerPageChange={(val) => { setPerPage(val); setPage(1); }}
         />
       </div>
 
@@ -150,12 +140,6 @@ export default function SubscriptionsPage() {
         currentLabel={capCurrentLabel}
         initialValue={capInitVal}
         onSave={handleSaveCap}
-      />
-
-      <SiteModal 
-        open={siteModalOpen}
-        onClose={() => setSiteModalOpen(false)}
-        onSave={handleAddSite}
       />
     </div>
   );

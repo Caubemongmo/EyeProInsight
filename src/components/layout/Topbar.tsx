@@ -1,10 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-
-const SCHOOLS = [
-  { id: 'ntp', name: 'TH Nguyễn Tri Phương' },
-  { id: 'pct', name: 'TH Phan Chu Trinh' },
-  { id: 'lqd', name: 'TH Lê Quý Đôn' },
-];
+import { useAppStore, SCHOOLS } from '../../stores/appStore';
 
 function SchoolIcon() {
   return (
@@ -26,7 +21,7 @@ function SchoolIcon() {
 
 export default function Topbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedSchool, setSelectedSchool] = useState('ntp');
+  const { selectedSchoolId, setSelectedSchoolId } = useAppStore();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,7 +34,7 @@ export default function Topbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [menuOpen]);
 
-  const currentSchool = SCHOOLS.find((s) => s.id === selectedSchool);
+  const currentSchool = SCHOOLS.find((s) => s.id === selectedSchoolId);
 
   return (
     <header className="flex items-center gap-3 h-[var(--topbar-height)] px-5 bg-white border-b border-[var(--color-border)] flex-none">
@@ -73,7 +68,7 @@ export default function Topbar() {
               <div
                 key={s.id}
                 onClick={() => {
-                  setSelectedSchool(s.id);
+                  setSelectedSchoolId(s.id);
                   setMenuOpen(false);
                 }}
                 className="flex items-center justify-between gap-2.5 px-[11px] py-2 rounded-[7px] text-[13px] font-semibold cursor-pointer hover:bg-[var(--color-bg)] transition-colors"
@@ -81,7 +76,7 @@ export default function Topbar() {
                 {s.name}
                 <span
                   className="text-[var(--color-success)]"
-                  style={{ opacity: s.id === selectedSchool ? 1 : 0 }}
+                  style={{ opacity: s.id === selectedSchoolId ? 1 : 0 }}
                 >
                   ✓
                 </span>

@@ -58,7 +58,7 @@ export default function DomainsPage() {
     <div data-screen-label="Quản lý domain">
       <div className="max-w-[1060px]">
         <h2 className="m-0 mb-1 text-[19px] font-bold tracking-[-0.3px]">
-          Quản lý domain E.Cloud liên thông
+          Quản lý domain
         </h2>
         
         <div className="flex justify-end mb-3.5">

@@ -27,7 +27,7 @@ export default function DomainTable({
   return (
     <div className="bg-white border border-[var(--color-border)] rounded-[14px] shadow-[0_1px_2px_rgba(0,0,0,0.04)] overflow-hidden">
       <div className="grid grid-cols-[1.35fr_1fr_152px_150px_176px] gap-3.5 items-center px-5 py-[11px] bg-[#FAFAFA] border-b border-[var(--color-border)] text-[11.5px] font-bold text-[var(--color-text-muted)] uppercase tracking-[0.4px]">
-        <div>Domain E.Cloud</div>
+        <div>Domain</div>
         <div>Chế độ đồng bộ</div>
         <div>Đồng bộ gần nhất</div>
         <div>Trạng thái</div>
