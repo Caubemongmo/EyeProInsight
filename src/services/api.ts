@@ -45,3 +45,50 @@ export async function deleteRecommendation(id: number): Promise<void> {
   await delay(200);
   store = store.filter((r) => r.id !== id);
 }
+
+
+// --- Permissions Data ---
+
+export interface PermScreen {
+  group?: string;
+  k?: string;
+  label?: string;
+}
+
+export const SCREENS: PermScreen[] = [
+  { group: 'Quản trị nghiệp vụ' },
+  { k: 'rec', label: 'Cấu hình khuyến nghị' },
+  { k: 'data', label: 'Cấu hình dữ liệu' },
+  { k: 'users', label: 'Quản lý người dùng' },
+  { k: 'perm', label: 'Phân quyền' },
+  { group: 'Công cụ kỹ thuật' },
+  { k: 'doc', label: 'Documents' },
+  { k: 'kg', label: 'Knowledge Graph' },
+  { k: 'ret', label: 'Retrieval' },
+  { k: 'ex', label: 'Bài tập' },
+  { k: 'api', label: 'API' },
+  { group: 'Quản trị hệ thống' },
+  { k: 'sub', label: 'Quản lý thuê bao' },
+  { k: 'dom', label: 'Quản lý domain' },
+];
+
+export type RoleKey = 'admin' | 'dev';
+
+export type PermissionMatrix = Record<RoleKey, Record<string, 1 | 0>>;
+
+export const PERM_DEFAULT: PermissionMatrix = {
+  admin: { rec: 1, data: 1, users: 1, perm: 1, doc: 0, kg: 0, ret: 0, ex: 0, api: 0, sub: 0, dom: 0 },
+  dev: { rec: 0, data: 1, users: 0, perm: 0, doc: 1, kg: 1, ret: 1, ex: 1, api: 1, sub: 0, dom: 0 },
+};
+
+let permStore: PermissionMatrix = JSON.parse(JSON.stringify(PERM_DEFAULT));
+
+export async function fetchPermissions(): Promise<PermissionMatrix> {
+  await delay(150);
+  return JSON.parse(JSON.stringify(permStore));
+}
+
+export async function updatePermissions(matrix: PermissionMatrix): Promise<void> {
+  await delay(300);
+  permStore = JSON.parse(JSON.stringify(matrix));
+}
