@@ -73,7 +73,6 @@ export const SCREENS: PermScreen[] = [
 ];
 
 export type RoleKey = 'admin' | 'dev' | 'super';
-
 export type PermissionMatrix = Record<string, Record<string, 1 | 0>>;
 
 export const PERM_DEFAULT: PermissionMatrix = {
@@ -178,4 +177,49 @@ export async function updateSiteCap(id: number, cap: number): Promise<void> {
   await delay(300);
   const idx = siteStore.findIndex(s => s.id === id);
   if (idx !== -1) siteStore[idx].cap = cap;
+}
+
+// --- Domains Data ---
+
+export interface DomainEntity {
+  id: number;
+  name: string;
+  host: string;
+  mode: 'auto' | 'manual';
+  sched: '1h' | '6h' | '24h' | '7d';
+  last: string;
+  status: 'Hoạt động' | 'Chờ đồng bộ';
+}
+
+const DOMAIN_SEED: DomainEntity[] = [
+  { id: 1, name: 'EyePro Smartlib', host: 'smartlib.eyepro.vn', mode: 'auto', sched: '24h', last: '02:00 13/8/2026', status: 'Hoạt động' },
+  { id: 2, name: 'E.Cloud Học liệu Sở GD', host: 'hoclieu.ecloud.vn', mode: 'auto', sched: '6h', last: '06:00 13/8/2026', status: 'Hoạt động' },
+  { id: 3, name: 'Kho nội bộ TH Lê Quý Đôn', host: 'lequydon.ecloud.vn', mode: 'manual', sched: '24h', last: '15:40 9/8/2026', status: 'Chờ đồng bộ' },
+];
+
+let domainStore: DomainEntity[] = [...DOMAIN_SEED];
+let nextDomainId = 4;
+
+export async function fetchDomains(): Promise<DomainEntity[]> {
+  await delay(200);
+  return [...domainStore];
+}
+
+export async function saveDomain(domain: Partial<DomainEntity>): Promise<void> {
+  await delay(400);
+  if (domain.id) {
+    const idx = domainStore.findIndex(d => d.id === domain.id);
+    if (idx !== -1) domainStore[idx] = { ...domainStore[idx], ...domain } as DomainEntity;
+  } else {
+    domainStore.push({ ...domain, id: nextDomainId++, status: domain.mode === 'auto' ? 'Hoạt động' : 'Chờ đồng bộ', last: 'Chưa đồng bộ' } as DomainEntity);
+  }
+}
+
+export async function syncDomain(id: number): Promise<void> {
+  await delay(500);
+  const idx = domainStore.findIndex(d => d.id === id);
+  if (idx !== -1) {
+    domainStore[idx].status = 'Hoạt động';
+    domainStore[idx].last = 'Vừa xong';
+  }
 }

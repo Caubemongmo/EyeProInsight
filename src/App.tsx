@@ -5,6 +5,7 @@ import RecommendationsPage from './features/recommendations/RecommendationsPage'
 import PermissionsPage from './features/permissions/PermissionsPage';
 import UsersPage from './features/users/UsersPage';
 import SubscriptionsPage from './features/subscriptions/SubscriptionsPage';
+import DomainsPage from './features/domains/DomainsPage';
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div>
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/exercises" element={<PlaceholderPage title="Bài tập" />} />
           <Route path="/api" element={<PlaceholderPage title="API" />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
-          <Route path="/domains" element={<PlaceholderPage title="Quản lý domain" />} />
+          <Route path="/domains" element={<DomainsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
