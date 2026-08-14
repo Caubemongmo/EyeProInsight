@@ -3,6 +3,7 @@ import AdminLayout from './layouts/AdminLayout';
 import DataConfigPage from './features/data-config/DataConfigPage';
 import RecommendationsPage from './features/recommendations/RecommendationsPage';
 import PermissionsPage from './features/permissions/PermissionsPage';
+import UsersPage from './features/users/UsersPage';
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div>
@@ -19,7 +20,7 @@ export default function App() {
         <Route element={<AdminLayout />}>
           <Route index element={<RecommendationsPage />} />
           <Route path="/data" element={<DataConfigPage />} />
-          <Route path="/users" element={<PlaceholderPage title="Quản lý người dùng" />} />
+          <Route path="/users" element={<UsersPage />} />
           <Route path="/permissions" element={<PermissionsPage />} />
           <Route path="/documents" element={<PlaceholderPage title="Documents" />} />
           <Route path="/knowledge-graph" element={<PlaceholderPage title="Knowledge Graph" />} />

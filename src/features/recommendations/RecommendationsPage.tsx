@@ -94,8 +94,7 @@ export default function RecommendationsPage() {
 
       {/* Toolbar */}
       <div className="flex items-end gap-2.5 mb-3.5">
-        <div className="flex-1 max-w-[340px]">
-          <div className="text-xs font-semibold text-[var(--color-text-label)] mb-1.5">Tìm</div>
+        <div className="flex-1 max-w-[340px]">          
           <input
             value={query}
             onChange={(e) => { setQuery(e.target.value); setPage(1); }}

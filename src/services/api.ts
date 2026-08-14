@@ -72,9 +72,9 @@ export const SCREENS: PermScreen[] = [
   { k: 'dom', label: 'Quản lý domain' },
 ];
 
-export type RoleKey = 'admin' | 'dev';
+export type RoleKey = 'admin' | 'dev' | 'super';
 
-export type PermissionMatrix = Record<RoleKey, Record<string, 1 | 0>>;
+export type PermissionMatrix = Record<string, Record<string, 1 | 0>>;
 
 export const PERM_DEFAULT: PermissionMatrix = {
   admin: { rec: 1, data: 1, users: 1, perm: 1, doc: 0, kg: 0, ret: 0, ex: 0, api: 0, sub: 0, dom: 0 },
@@ -91,4 +91,51 @@ export async function fetchPermissions(): Promise<PermissionMatrix> {
 export async function updatePermissions(matrix: PermissionMatrix): Promise<void> {
   await delay(300);
   permStore = JSON.parse(JSON.stringify(matrix));
+}
+
+// --- Users Data ---
+
+export interface User {
+  id: number;
+  ini: string;
+  name: string;
+  email: string;
+  school: string;
+  role: RoleKey;
+  status: 'on' | 'off';
+  activity: string;
+}
+
+const USER_SEED: User[] = [
+  { id: 1, ini: 'VD', name: 'Vũ Đức', email: 'duc@vdsmart.vn', school: 'Toàn hệ thống', role: 'super', status: 'on', activity: 'Hôm nay 08:45' },
+  { id: 2, ini: 'KT', name: 'Trần Kỹ Thuật', email: 'kts@vdsmart.vn', school: 'Toàn hệ thống', role: 'dev', status: 'on', activity: 'Hôm nay 07:58' },
+  { id: 3, ini: 'NT', name: 'Ngô Trâm', email: 'tram@ntp.edu.vn', school: 'TH Nguyễn Tri Phương', role: 'admin', status: 'on', activity: 'Hôm nay 08:05' },
+  { id: 4, ini: 'NP', name: 'Nguyễn Phương', email: 'phuong@pct.edu.vn', school: 'TH Phan Chu Trinh', role: 'admin', status: 'on', activity: 'Hôm nay 09:12' },
+];
+
+let userStore: User[] = [...USER_SEED];
+let nextUserId = 5;
+
+export async function fetchUsers(): Promise<User[]> {
+  await delay(250);
+  return [...userStore];
+}
+
+export async function saveUser(user: Partial<User>): Promise<void> {
+  await delay(400);
+  if (user.id) {
+    const idx = userStore.findIndex(u => u.id === user.id);
+    if (idx !== -1) userStore[idx] = { ...userStore[idx], ...user } as User;
+  } else {
+    userStore.push({ ...user, id: nextUserId++ } as User);
+  }
+}
+
+export async function removeUser(id: number): Promise<void> {
+  await delay(300);
+  userStore = userStore.filter(u => u.id !== id);
+}
+
+export async function resetPassword(id: number): Promise<void> {
+  await delay(500); // Simulate API call to send email
 }
