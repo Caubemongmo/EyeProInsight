@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminLayout from './layouts/AdminLayout';
-
+import DataConfigPage from './features/data-config/DataConfigPage';
+import RecommendationsPage from './features/recommendations/RecommendationsPage';
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div>
@@ -15,8 +16,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
-          <Route index element={<PlaceholderPage title="Cấu hình khuyến nghị" />} />
-          <Route path="/data" element={<PlaceholderPage title="Cấu hình dữ liệu" />} />
+          <Route index element={<RecommendationsPage />} />
+          <Route path="/data" element={<DataConfigPage />} />
           <Route path="/users" element={<PlaceholderPage title="Quản lý người dùng" />} />
           <Route path="/permissions" element={<PlaceholderPage title="Phân quyền" />} />
           <Route path="/documents" element={<PlaceholderPage title="Documents" />} />

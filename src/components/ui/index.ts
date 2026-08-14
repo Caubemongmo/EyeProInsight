@@ -1,2 +1,9 @@
-// UI components barrel export
-// Add exports here as components are created
+export { default as Button } from './Button';
+export { default as Toggle } from './Toggle';
+export { default as InfoPopover } from './InfoPopover';
+export { default as SectionCard } from './SectionCard';
+export { default as SettingRow } from './SettingRow';
+export { default as NumberInput } from './NumberInput';
+export { default as AlertBanner } from './AlertBanner';
+export { default as Modal } from './Modal';
+export { default as Pagination } from './Pagination';
