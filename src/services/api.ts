@@ -193,8 +193,7 @@ export interface DomainEntity {
 
 const DOMAIN_SEED: DomainEntity[] = [
   { id: 1, name: 'EyePro Smartlib', host: 'smartlib.eyepro.vn', mode: 'auto', sched: '24h', last: '02:00 13/8/2026', status: 'Hoạt động' },
-  { id: 2, name: 'E.Cloud Học liệu Sở GD', host: 'hoclieu.ecloud.vn', mode: 'auto', sched: '6h', last: '06:00 13/8/2026', status: 'Hoạt động' },
-  { id: 3, name: 'Kho nội bộ TH Lê Quý Đôn', host: 'lequydon.ecloud.vn', mode: 'manual', sched: '24h', last: '15:40 9/8/2026', status: 'Chờ đồng bộ' },
+  { id: 2, name: 'EyeProCloud', host: 'hoclieu.ecloud.vn', mode: 'auto', sched: '6h', last: '06:00 13/8/2026', status: 'Hoạt động' },
 ];
 
 let domainStore: DomainEntity[] = [...DOMAIN_SEED];
