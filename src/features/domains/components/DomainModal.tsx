@@ -16,6 +16,8 @@ export default function DomainModal({ domain, open, onClose, onSave }: DomainMod
   const [host, setHost] = useState('');
   const [mode, setMode] = useState<'auto' | 'manual'>('auto');
   const [sched, setSched] = useState<'1h' | '6h' | '24h' | '7d'>('24h');
+  const [syncFrom, setSyncFrom] = useState('');
+  const [syncTo, setSyncTo] = useState('');
 
   useEffect(() => {
     if (open) {
@@ -23,6 +25,8 @@ export default function DomainModal({ domain, open, onClose, onSave }: DomainMod
       setHost(domain?.host || '');
       setMode(domain?.mode || 'auto');
       setSched(domain?.sched || '24h');
+      setSyncFrom(domain?.syncFrom || '');
+      setSyncTo(domain?.syncTo || '');
     }
   }, [open, domain]);
 
@@ -94,7 +98,7 @@ export default function DomainModal({ domain, open, onClose, onSave }: DomainMod
             value={sched}
             onChange={e => setSched(e.target.value as any)}
             disabled={!isAuto}
-            className="w-full px-[11px] py-[9px] border border-[var(--color-border-light)] rounded-lg text-[13.5px] font-[inherit] outline-none"
+            className="w-full px-[11px] py-[9px] border border-[var(--color-border-light)] rounded-lg text-[13.5px] font-[inherit] outline-none mb-3"
             style={{
               background: isAuto ? 'white' : '#F4F4F5',
               color: isAuto ? '#27272A' : '#A1A1AA'
@@ -105,8 +109,40 @@ export default function DomainModal({ domain, open, onClose, onSave }: DomainMod
             <option value="24h">Mỗi ngày lúc 02:00</option>
             <option value="7d">Mỗi tuần (Chủ nhật 02:00)</option>
           </select>
+          
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <div className="text-[12.5px] font-semibold mb-1.5" style={{ color: isAuto ? '#27272A' : '#A1A1AA' }}>Từ ngày</div>
+              <input 
+                type="date"
+                value={syncFrom}
+                onChange={e => setSyncFrom(e.target.value)}
+                disabled={!isAuto}
+                className="w-full px-[11px] py-[9px] border border-[var(--color-border-light)] rounded-lg text-[13.5px] font-[inherit] outline-none focus:border-[var(--color-primary)]"
+                style={{
+                  background: isAuto ? 'white' : '#F4F4F5',
+                  color: isAuto ? '#27272A' : '#A1A1AA'
+                }}
+              />
+            </div>
+            <div className="flex-1">
+              <div className="text-[12.5px] font-semibold mb-1.5" style={{ color: isAuto ? '#27272A' : '#A1A1AA' }}>Đến ngày</div>
+              <input 
+                type="date"
+                value={syncTo}
+                onChange={e => setSyncTo(e.target.value)}
+                disabled={!isAuto}
+                className="w-full px-[11px] py-[9px] border border-[var(--color-border-light)] rounded-lg text-[13.5px] font-[inherit] outline-none focus:border-[var(--color-primary)]"
+                style={{
+                  background: isAuto ? 'white' : '#F4F4F5',
+                  color: isAuto ? '#27272A' : '#A1A1AA'
+                }}
+              />
+            </div>
+          </div>
+          
           <div className="text-[11.5px] text-[var(--color-text-muted)] mt-1.5">
-            {isAuto ? 'Chu kỳ chạy theo giờ UTC+7.' : 'Không dùng ở chế độ nhân công.'}
+            {isAuto ? 'Hệ thống tự đồng bộ trong khoảng thời gian trên.' : 'Không dùng ở chế độ nhân công.'}
           </div>
         </div>
 
@@ -118,7 +154,7 @@ export default function DomainModal({ domain, open, onClose, onSave }: DomainMod
         <button 
           onClick={() => {
             if (isValid) {
-              onSave({ id: domain?.id, name, host, mode, sched });
+              onSave({ id: domain?.id, name, host, mode, sched, syncFrom, syncTo });
               onClose();
             }
           }}

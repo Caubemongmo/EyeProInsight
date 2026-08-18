@@ -50,6 +50,9 @@ export default function DomainTable({
               <div className="text-[13px]">{isAuto ? 'Tự động theo chu kỳ' : 'Bằng nhân công'}</div>
               <div className="text-[11.5px] text-[var(--color-text-secondary)] mt-0.5">
                 {isAuto ? SCHED_LABELS[d.sched] : 'Chạy khi admin yêu cầu'}
+                {isAuto && d.syncFrom && d.syncTo && (
+                  <span className="block mt-[3px]">Từ {d.syncFrom} đến {d.syncTo}</span>
+                )}
               </div>
             </div>
             

@@ -187,13 +187,15 @@ export interface DomainEntity {
   host: string;
   mode: 'auto' | 'manual';
   sched: '1h' | '6h' | '24h' | '7d';
+  syncFrom?: string;
+  syncTo?: string;
   last: string;
   status: 'Hoạt động' | 'Chờ đồng bộ';
 }
 
 const DOMAIN_SEED: DomainEntity[] = [
-  { id: 1, name: 'EyePro Smartlib', host: 'smartlib.eyepro.vn', mode: 'auto', sched: '24h', last: '02:00 13/8/2026', status: 'Hoạt động' },
-  { id: 2, name: 'EyeProCloud', host: 'hoclieu.ecloud.vn', mode: 'auto', sched: '6h', last: '06:00 13/8/2026', status: 'Hoạt động' },
+  { id: 1, name: 'EyePro Smartlib', host: 'smartlib.eyepro.vn', mode: 'auto', sched: '24h', syncFrom: '2026-01-01', syncTo: '2026-12-31', last: '02:00 13/8/2026', status: 'Hoạt động' },
+  { id: 2, name: 'EyePro Cloud', host: 'hoclieu.ecloud.vn', mode: 'auto', sched: '24h', syncFrom: '2026-05-01', syncTo: '2026-08-31', last: '06:00 13/8/2026', status: 'Hoạt động' },
 ];
 
 let domainStore: DomainEntity[] = [...DOMAIN_SEED];
